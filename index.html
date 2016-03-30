@@ -1,112 +1,111 @@
 <!DOCTYPE HTML>
 <html>
-<head>
+  <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
     <meta content="utf-8" http-equiv="encoding" />
     <title>Tetris</title>
 
-    <!-- THIS FIRST --
+    <!-- THIS FIRST -->
     <script src="jquery-1.11.2.min.js"></script> <!-- 1 - JQUERY -->
-    <!--    <script src="pixi.dev.js"></script>  <!-- 2 - Pixi -->
-    <script src="Pixi/bin/pixi.js"></script>
-    <!-- <script src="tetris.js"></script> -->
+    <script src="pixi.dev.js"></script>          <!-- 2 - Pixi -->
+    <script src="pixi.js"></script>
+    <script src="tetris.js"></script>
 
 
-</head>
-<body><!--
-    <button onclick="tetrisController()">Tetris</button>-->
+  </head>
+	<body>
+		<!--
+    <button onclick="tetrisController()">Tetris</button>
+    -->
 
     <script>
+		$(function tetrisController(){
+		  var GRID_WIDTH = 10;
+		  var GRID_HEIGHT = 20;
+		  var SPRITE_WIDTH = 24;
+		  
+		  var SCOREBOARD_WIDTH = SPRITE_WIDTH * 5;
 
-function tetrisController()
-{
-    var GRID_WIDTH = 10;
-    var GRID_HEIGHT = 20;
-    var SPRITE_WIDTH = 24;
-    
-    var SCOREBOARD_WIDTH = SPRITE_WIDTH * 5;
+		  var CANVAS_WIDTH = GRID_WIDTH * SPRITE_WIDTH + SCOREBOARD_WIDTH;
+		  var CANVAS_HEIGHT = GRID_HEIGHT * SPRITE_WIDTH;
 
-    var CANVAS_WIDTH = GRID_WIDTH * SPRITE_WIDTH + SCOREBOARD_WIDTH;
-    var CANVAS_HEIGHT = GRID_HEIGHT * SPRITE_WIDTH;
-
-    var stage = new PIXI.Container();
-    var renderer = PIXI.autoDetectRenderer(CANVAS_WIDTH, CANVAS_HEIGHT);
-    document.body.appendChild(renderer.view);     // add the renderer view element to the DOM
+		  var stage = new PIXI.Container();
+		  var renderer = PIXI.autoDetectRenderer(CANVAS_WIDTH, CANVAS_HEIGHT);
+		  document.body.appendChild(renderer.view);     // add the renderer view element to the DOM
 
 
-    /**
-     * TEXT / SCOREBOARD
-     */
+		  /**
+		   * TEXT / SCOREBOARD
+		   */
 
-    var scoreboardBackground = new PIXI.Graphics();
-    scoreboardBackground.beginFill(0x7E7215);
-    scoreboardBackground.drawRect(0, 0, SCOREBOARD_WIDTH, CANVAS_HEIGHT);
-    scoreboardBackground.endFill();
-    stage.addChild(scoreboardBackground);
+		  var scoreboardBackground = new PIXI.Graphics();
+		  scoreboardBackground.beginFill(0x7E7215);
+		  scoreboardBackground.drawRect(0, 0, SCOREBOARD_WIDTH, CANVAS_HEIGHT);
+		  scoreboardBackground.endFill();
+		  stage.addChild(scoreboardBackground);
 
-    var levelText = new PIXI.Text("Level\n0", {font:"26px Monospace", fill: "black"});
-    stage.addChild(levelText);
+		  var levelText = new PIXI.Text("Level\n0", {font:"26px Monospace", fill: "black"});
+		  stage.addChild(levelText);
 
-    var clearedLinesText = new PIXI.Text("Clear\n0", {font:"26px Monospace", fill: "black"});
-    clearedLinesText.position.y = Math.floor((CANVAS_HEIGHT - 56) / 3);
-    stage.addChild(clearedLinesText);
+		  var clearedLinesText = new PIXI.Text("Clear\n0", {font:"26px Monospace", fill: "black"});
+		  clearedLinesText.position.y = Math.floor((CANVAS_HEIGHT - 56) / 3);
+		  stage.addChild(clearedLinesText);
 
-    var nextText = new PIXI.Text("Next", {font:"26px Monospace", fill: "black"});
-    nextText.position.y = Math.floor((CANVAS_HEIGHT - 56) * 2 / 3);
-    stage.addChild(nextText);
+		  var nextText = new PIXI.Text("Next", {font:"26px Monospace", fill: "black"});
+		  nextText.position.y = Math.floor((CANVAS_HEIGHT - 56) * 2 / 3);
+		  stage.addChild(nextText);
 
-    var scoreText = new PIXI.Text("Score\n0", {font:"26px Monospace", fill: "black"});
-    scoreText.position.y = CANVAS_HEIGHT - 56;
-    stage.addChild(scoreText);
+		  var scoreText = new PIXI.Text("Score\n0", {font:"26px Monospace", fill: "black"});
+		  scoreText.position.y = CANVAS_HEIGHT - 56;
+		  stage.addChild(scoreText);
 
-    /*
-    requestAnimationFrame( animate );
+		  renderer.render(stage);
+		  
+	    requestAnimationFrame( animate );
+	    
+	    var radius = 100;
+	    circle = new PIXI.Graphics();
+	    circle.beginFill(0xff0000, 1);
+	    circle.drawCircle(0, 0, radius);
+	    circle.endFill();
 
-    
-    var radius = 100;
-    circle = new PIXI.Graphics();
-    circle.beginFill(0xff0000, 1);
-    circle.drawCircle(0, 0, radius);
-    circle.endFill();
+	    stage.addChild(circle);
 
-    stage.addChild(circle);
+	    circle.position.x = 200;
+	    circle.position.y = 200;
 
-    circle.position.x = 200;
-    circle.position.y = 200;*/
+	    function animate() {
+	    	requestAnimationFrame( animate );
 
-}
-tetrisController();
-/*
-//
-// this function is called before every browser/canvas repaint
-// approximately 30 or 60 times per second
-//
-// by putting requestAnimFrame(animate) in here, we cause an animation loop
-//
-function animate()
-{
-    requestAnimationFrame( animate );
+	    	renderer.render(stage);     // render the stage
+			}
+		});
+		//tetrisController();
+		
+		//
+		// this function is called before every browser/canvas repaint
+		// approximately 30 or 60 times per second
+		//
+		// by putting requestAnimFrame(animate) in here, we cause an animation loop
+		//
+		
+		/*
+		$(function ()
+		{
 
-    renderer.render(stage);     // render the stage
+		//var loader = new PIXI.AssetLoader(["button.png","button_over.png","button_down.png"]);
+		//loader.onComplete = start_button_example;
+		//loader.load();
 
-}
+		var loader = PIXI.loader;
+		//loader.add("button.png", "button.png");
+		//loader.add("button_over.png", "button_over.png");
+		//loader.add("button_down","button_down.png");
+		loader.once('complete', tetrisController);
+		loader.load();
 
-$(function ()
-{
-
-//var loader = new PIXI.AssetLoader(["button.png","button_over.png","button_down.png"]);
-//loader.onComplete = start_button_example;
-//loader.load();
-
-var loader = PIXI.loader;
-//loader.add("button.png", "button.png");
-//loader.add("button_over.png", "button_over.png");
-//loader.add("button_down","button_down.png");
-loader.once('complete', tetrisController);
-loader.load();
-
-});*/
+		});*/
 
     </script>
-</body>
+	</body>
 </html>
