@@ -6,6 +6,11 @@
     <title>Tetris</title>
 
     <!-- THIS FIRST -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
     <script src="jquery-1.11.2.min.js"></script> <!-- 1 - JQUERY -->
     <script src="pixi.dev.js"></script>          <!-- 2 - Pixi -->
     <script src="pixi.js"></script>
@@ -13,10 +18,32 @@
 
 
   </head>
-	<body>
+	<body style="padding-top: 70px;">
 		<!--
     <button onclick="tetrisController()">Tetris</button>
     -->
+
+		<div class="container">
+	    <div class="jumbotron">
+        <div align="center">  
+          <h2>TETRIS in Pixi.js</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+    	<div class="row">
+    		<div column="col-sm-6">
+					<div id="tetris"></div>
+				</div> <!--col-sm-6-->
+				<div column="col-sm-6">
+					<div id="scoreboard">
+
+					</div>
+				</div> <!--col-sm-6-->
+			</div> <!--row-->
+		</div> <!--container-->
+
 
     <script>
 		$(function tetrisController(){
@@ -31,7 +58,7 @@
 
 		  var stage = new PIXI.Container();
 		  var renderer = PIXI.autoDetectRenderer(CANVAS_WIDTH, CANVAS_HEIGHT);
-		  document.body.appendChild(renderer.view);     // add the renderer view element to the DOM
+		  document.getElementById("tetris").appendChild(renderer.view);     // add the renderer view element to the DOM
 
 
 		  /**
