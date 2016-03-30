@@ -8,29 +8,61 @@
     <!-- THIS FIRST --
     <script src="jquery-1.11.2.min.js"></script> <!-- 1 - JQUERY -->
     <!--    <script src="pixi.dev.js"></script>  <!-- 2 - Pixi -->
-    <script src="pixi.js"></script>
+    <script src="Pixi/bin/pixi.js"></script>
     <!-- <script src="tetris.js"></script> -->
+
 
 </head>
 <body><!--
     <button onclick="tetrisController()">Tetris</button>-->
 
     <script>
-var stage;  // pixi stage - the drawing area
-var renderer;   // create a renderer instance
-
 
 function tetrisController()
 {
+    var GRID_WIDTH = 10;
+    var GRID_HEIGHT = 20;
+    var SPRITE_WIDTH = 24;
+    
+    var SCOREBOARD_WIDTH = SPRITE_WIDTH * 5;
 
-    stage = new PIXI.Container();
-    //stage.interactive = true;
-    renderer = PIXI.autoDetectRenderer(500, 300, {backgroundColor: 0x000000});
+    var CANVAS_WIDTH = GRID_WIDTH * SPRITE_WIDTH + SCOREBOARD_WIDTH;
+    var CANVAS_HEIGHT = GRID_HEIGHT * SPRITE_WIDTH;
+
+    var stage = new PIXI.Container();
+    var renderer = PIXI.autoDetectRenderer(CANVAS_WIDTH, CANVAS_HEIGHT);
     document.body.appendChild(renderer.view);     // add the renderer view element to the DOM
+
+
+    /**
+     * TEXT / SCOREBOARD
+     */
+
+    var scoreboardBackground = new PIXI.Graphics();
+    scoreboardBackground.beginFill(0x7E7215);
+    scoreboardBackground.drawRect(0, 0, SCOREBOARD_WIDTH, CANVAS_HEIGHT);
+    scoreboardBackground.endFill();
+    stage.addChild(scoreboardBackground);
+
+    var levelText = new PIXI.Text("Level\n0", {font:"26px Monospace", fill: "black"});
+    stage.addChild(levelText);
+
+    var clearedLinesText = new PIXI.Text("Clear\n0", {font:"26px Monospace", fill: "black"});
+    clearedLinesText.position.y = Math.floor((CANVAS_HEIGHT - 56) / 3);
+    stage.addChild(clearedLinesText);
+
+    var nextText = new PIXI.Text("Next", {font:"26px Monospace", fill: "black"});
+    nextText.position.y = Math.floor((CANVAS_HEIGHT - 56) * 2 / 3);
+    stage.addChild(nextText);
+
+    var scoreText = new PIXI.Text("Score\n0", {font:"26px Monospace", fill: "black"});
+    scoreText.position.y = CANVAS_HEIGHT - 56;
+    stage.addChild(scoreText);
+
     /*
     requestAnimationFrame( animate );
 
-
+    
     var radius = 100;
     circle = new PIXI.Graphics();
     circle.beginFill(0xff0000, 1);
