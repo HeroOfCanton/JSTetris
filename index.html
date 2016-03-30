@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <meta content="utf-8" http-equiv="encoding" />
+    <title>Tetris</title>
+
+    <!-- THIS FIRST --
+    <script src="jquery-1.11.2.min.js"></script> <!-- 1 - JQUERY -->
+    <!--    <script src="pixi.dev.js"></script>  <!-- 2 - Pixi -->
+    <script src="pixi.js"></script>
+    <!-- <script src="tetris.js"></script> -->
+
+</head>
+<body><!--
+    <button onclick="tetrisController()">Tetris</button>-->
+
+    <script>
+var stage;  // pixi stage - the drawing area
+var renderer;   // create a renderer instance
+
+
+function tetrisController()
+{
+
+    stage = new PIXI.Container();
+    //stage.interactive = true;
+    renderer = PIXI.autoDetectRenderer(500, 300, {backgroundColor: 0x000000});
+    document.body.appendChild(renderer.view);     // add the renderer view element to the DOM
+    /*
+    requestAnimationFrame( animate );
+
+
+    var radius = 100;
+    circle = new PIXI.Graphics();
+    circle.beginFill(0xff0000, 1);
+    circle.drawCircle(0, 0, radius);
+    circle.endFill();
+
+    stage.addChild(circle);
+
+    circle.position.x = 200;
+    circle.position.y = 200;*/
+
+}
+tetrisController();
+/*
+//
+// this function is called before every browser/canvas repaint
+// approximately 30 or 60 times per second
+//
+// by putting requestAnimFrame(animate) in here, we cause an animation loop
+//
+function animate()
+{
+    requestAnimationFrame( animate );
+
+    renderer.render(stage);     // render the stage
+
+}
+
+$(function ()
+{
+
+//var loader = new PIXI.AssetLoader(["button.png","button_over.png","button_down.png"]);
+//loader.onComplete = start_button_example;
+//loader.load();
+
+var loader = PIXI.loader;
+//loader.add("button.png", "button.png");
+//loader.add("button_over.png", "button_over.png");
+//loader.add("button_down","button_down.png");
+loader.once('complete', tetrisController);
+loader.load();
+
+});*/
+
+    </script>
+</body>
+</html>
