@@ -14,30 +14,42 @@
 
   </head>
 	<body>
-		<!--
-    <button onclick="tetrisController()">Tetris</button>
-    -->
 
     <script>
 		$(function tetrisController(){
-		  var GRID_WIDTH = 10;
-		  var GRID_HEIGHT = 20;
-		  var SPRITE_WIDTH = 24;
+		    var GRID_WIDTH = 10;
+		    var GRID_HEIGHT = 20;
+		    var SPRITE_WIDTH = 24;
 		  
-		  var SCOREBOARD_WIDTH = SPRITE_WIDTH * 5;
+		    var SCOREBOARD_WIDTH = SPRITE_WIDTH * 5;
 
-		  var CANVAS_WIDTH = GRID_WIDTH * SPRITE_WIDTH + SCOREBOARD_WIDTH;
-		  var CANVAS_HEIGHT = GRID_HEIGHT * SPRITE_WIDTH;
+		    var CANVAS_WIDTH = GRID_WIDTH * SPRITE_WIDTH;
+		    var CANVAS_HEIGHT = GRID_HEIGHT * SPRITE_WIDTH;
 
-		  var stage = new PIXI.Container();
-		  var renderer = PIXI.autoDetectRenderer(CANVAS_WIDTH, CANVAS_HEIGHT);
-		  document.body.appendChild(renderer.view);     // add the renderer view element to the DOM
+		    var stage = new PIXI.Container();
+            var renderer = PIXI.autoDetectRenderer(CANVAS_WIDTH, CANVAS_HEIGHT);
+		    document.body.appendChild(renderer.view);     // add the renderer view element to the DOM
 
+            /*
+		    var rectangle = new PIXI.Graphics();
+		    rectangle.beginFill(0xFF0000);
+		    rectangle.lineStyle(2, 0x000000);
+		    rectangle.drawRect(0, 0, SPRITE_WIDTH, SPRITE_WIDTH);
+            */
+
+		    var grid = new Grid(GRID_WIDTH, GRID_HEIGHT, SPRITE_WIDTH);
+		    var block = grid.addRectangle(0, 0, 0xff0000);
+		    stage.addChild(block);
+
+
+		    var block2 = grid.addRectangle(0, 10, 0xff0000);
+		    stage.addChild(block2);
 
 		  /**
 		   * TEXT / SCOREBOARD
 		   */
 
+            /*
 		  var scoreboardBackground = new PIXI.Graphics();
 		  scoreboardBackground.beginFill(0x7E7215);
 		  scoreboardBackground.drawRect(0, 0, SCOREBOARD_WIDTH, CANVAS_HEIGHT);
@@ -58,22 +70,12 @@
 		  var scoreText = new PIXI.Text("Score\n0", {font:"26px Monospace", fill: "black"});
 		  scoreText.position.y = CANVAS_HEIGHT - 56;
 		  stage.addChild(scoreText);
-
-		  renderer.render(stage);
-		  
-	    requestAnimationFrame( animate );
+          */
 	    
-	    var radius = 100;
-	    circle = new PIXI.Graphics();
-	    circle.beginFill(0xff0000, 1);
-	    circle.drawCircle(0, 0, radius);
-	    circle.endFill();
 
-	    stage.addChild(circle);
+	    renderer.render(stage);
 
-	    circle.position.x = 200;
-	    circle.position.y = 0;
-
+	    requestAnimationFrame(animate);
         
 	    window.addEventListener("keydown", function (e) {
 	        e.preventDefault();
@@ -81,30 +83,38 @@
 	            circle.position.y = 100;
 	        }
 	        if (e.keyCode === 37) { // left
-	            circle.position.y = 200;
-	        }/*
+	            //circle.fillColor = 0x00ff00;
+	        }
 	        if (e.keyCode === 38) { // up
-	            rotate("counterClockwise");
+	            //circle.fillColor = 0xffffff;
 	        }
 	        if (e.keyCode === 39) { // right
-	            move("right");
+	            //circle.fillColor = 0xffff00;
 	        }
 	        if (e.keyCode === 40) { // down
-	            bottom();
+	            //circle.fillColor = 0xff00ff;
 	        }
 	        if (e.keyCode === 90) { // Z
-	            rotate("clockwise");
+	            //circle.fillColor = 0x00ffff;
 	        }
 	        if (e.keyCode === 88) { // X
-	            rotate("counterClockwise");
-	        }*/
+	            //circle.fillColor = 0x0000ff;
+	        }
+	        //circle.drawCircle(circle.position.x, circle.position.y, circle.height/2);
 	        renderer.render(stage);
 	    });
-	    function animate() {
-	        //requestAnimationFrame( animate );
-	        setTimeout(animate, 1000);
 
-	    	circle.position.y += 50;
+	    var blockX = 0;
+	    var blockY = 0;
+	    function animate() {
+	        setTimeout(animate, 1000);
+	        if (grid.isEmpty(blockX, blockY + 1)) {
+	            grid.moveRectangle(blockX, blockY, blockX, blockY + 1);
+	            blockY += 1;
+	        }
+	        
+	        
+
 	    	renderer.render(stage);     // render the stage
 			}
 		});
@@ -135,5 +145,6 @@
 		});*/
 
     </script>
+        <p id="test"></p>
 	</body>
 </html>
