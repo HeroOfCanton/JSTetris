@@ -1,3 +1,21 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <meta content="utf-8" http-equiv="encoding"/>
+    <title>Tetris Example </title>
+    
+    <!-- THIS FIRST -->
+    <script src="jquery-1.11.2.min.js"></script> <!-- 1 - JQUERY -->
+    <script src="Pixi/bin/pixi.js"></script>  
+    
+</head>
+
+<body>
+
+  <div class="c4"> </div>
+
+<script>
 
 "use strict";
 var color_array = [0xff0000, 0x00ff00, 0x0000ff];
@@ -24,24 +42,29 @@ class Piece {
         this.color = color_array[color_index];
         color_index = (color_index + 1) % 3
     }
+
     down() {
         this.j++
     }
+
     up() {
         this.j--
     }
+
     left() {
         this.i--;
         if (this.i < 0) {
             this.i = 0
         }
     }
+
     right() {
         this.i++;
         if (this.i > 9) {
             this.i = 9
         }
     }
+
     draw(matrix) {
         for (var i = 0; i < this.values.length; i++) {
             var cell = matrix[this.i + this.values[i][0]][this.j + this.values[i][1]];
@@ -50,6 +73,7 @@ class Piece {
             cell.draw()
         }
     }
+
     fill(matrix) {
         for (var i = 0; i < this.values.length; i++) {
             var cell = matrix[this.i + this.values[i][0]][this.j + this.values[i][1]];
@@ -59,6 +83,7 @@ class Piece {
             cell.draw()
         }
     }
+
     conflict(matrix) {
         for (var i = 0; i < this.values.length; i++) {
             var i_offset = this.i + this.values[i][0];
@@ -187,3 +212,10 @@ function animate() {
     renderer.render(stage)
 }
 after_load();
+
+</script>
+    
+</body>
+
+</html>
+
