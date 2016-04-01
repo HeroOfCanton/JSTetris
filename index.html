@@ -12,10 +12,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
     <script src="jquery-1.11.2.min.js"></script> <!-- 1 - JQUERY -->
-    <!--<script src="pixi.dev.js"></script>          <!-- 2 - Pixi -->
     <script src="pixi.js"></script>
     <script src="tetris.js"></script>
 
+    <script type="text/javascript">
+	      $(document).on("click", "#highscore", function(e){
+	        $("#scoreboard").load("highscore_controller.php");
+	      });
+    </script>
 
   </head>
 	<body style="padding-top: 70px;">
@@ -35,22 +39,14 @@
 						
 					</div>
 				</div> <!--col-sm-4-->
-				<div class="col-sm-4">
-					<div class="table-responsive">
+				<div class="col-sm-2">
 					<div id="scoreboard">
-						<table class="table table-bordered table-hover" align="center">
-							<tr>
-								<th>High Scores</th>
-							</tr>
-							<tr>
-								<td>
-									100
-								</td>
-							</tr>
-						</table>
-						</div><!--id-->
-					</div><!--table-responsive-->
+							
+					</div><!--id-->
 				</div><!--col-sm-4-->
+				<div class = "col-sm-2">
+					<button class="btn btn-primary" type="button" id="highscore">Show High Scores</button>
+				</div>
 			</div> <!--row-->
 		</div> <!--container-->
 
