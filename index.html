@@ -476,6 +476,42 @@
 	            }
 	        }
 	    }
+
+	    function drop() {
+	    	var coords = {};
+	        for (var i = 0; i < piece.length; ++i) {
+	            if (coords.hasOwnProperty(getX(piece[i]).toString())) {
+	                coords[getX(piece[i]).toString()].push(getY(piece[i]));
+	            }
+	            else {
+	                coords[getX(piece[i]).toString()] = new Array();
+	                coords[getX(piece[i]).toString()].push(getY(piece[i]))
+	            }
+	        }
+	        var empty = true;
+	        for (var key in coords) {
+	            if (coords.hasOwnProperty(key)) {
+	                coords[key].sort(compareNumbersReverse);
+	                empty = isEmpty(key, coords[key][0] + 1);
+	                if (!empty)
+	                    return;
+	            }
+	        }
+	        if (empty) {
+	            for (var x in coords) {
+	                if (coords.hasOwnProperty(x)) {
+	                    for (var y in coords[x]) {
+	                        moveRectangle(x, coords[x][y], x, coords[x][y] + 1);
+	                    }
+	                }
+	            }
+	        }
+	        // Collision!
+	        else {
+	        	return false;
+	        }
+	    }
+
 	    window.addEventListener("keydown", function (e) {
 	        e.preventDefault();
 	        if (e.keyCode === 32) { // space bar
@@ -506,12 +542,17 @@
 	    var blockX = 0;
 	    var blockY = 0;
 	    function animate() {
-	        setTimeout(animate, 1000);
-	        if (isEmpty(blockX, blockY + 1)) {
-	            moveRectangle(blockX, blockY, blockX, blockY + 1);
-	            blockY += 1;
-	        }
-	        
+	        var myTimer = setTimeout(animate, 1000);
+	        // if (isEmpty(blockX, blockY + 1)) {
+	        //     moveRectangle(blockX, blockY, blockX, blockY + 1);
+	        //     blockY += 1;
+	        // }
+	        newPiece();
+	        if(!drop()) {
+	        	clearTimeout(myTimer);
+	        	newPiece();
+	        	myTimer = setTimeout(animate, 1000);
+	      	} 
 	        
 
 	    	renderer.render(stage);     // render the stage
