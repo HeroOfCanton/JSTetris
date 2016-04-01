@@ -135,6 +135,7 @@
 
             
 	    function newPiece(color, shape) {
+	        console.log("We are here");
 	        if (shape === 'z') {
 	            piece = [
                     addRectangle(5, 5, color),
@@ -494,7 +495,7 @@
 	                coords[key].sort(compareNumbersReverse);
 	                empty = isEmpty(key, coords[key][0] + 1);
 	                if (!empty)
-	                    return;
+	                    return false;
 	            }
 	        }
 	        if (empty) {
@@ -506,10 +507,12 @@
 	                }
 	            }
 	        }
+	        return true;
 	        // Collision!
+	        /*
 	        else {
 	        	return false;
-	        }
+	        }*/
 	    }
 
 	    window.addEventListener("keydown", function (e) {
@@ -543,14 +546,10 @@
 	    var blockY = 0;
 	    function animate() {
 	        var myTimer = setTimeout(animate, 1000);
-	        // if (isEmpty(blockX, blockY + 1)) {
-	        //     moveRectangle(blockX, blockY, blockX, blockY + 1);
-	        //     blockY += 1;
-	        // }
-	        newPiece();
-	        if(!drop()) {
+	        if (!drop()) {
+	            console.log(result);
 	        	clearTimeout(myTimer);
-	        	newPiece();
+	        	newPiece(0xff0000, 't');
 	        	myTimer = setTimeout(animate, 1000);
 	      	} 
 	        
