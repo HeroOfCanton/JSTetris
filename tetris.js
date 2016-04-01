@@ -41,12 +41,12 @@ class Block {
 
     //Returns the x coordinate relative to the grid
     getX() {
-        return this.rectangle.position.x;
+        return this.rectangle.position.x/this.size;
     }
 
     //Returns the y coordinate relative to the grid
     getY() {
-        return this.rectangle.position.y;
+        return this.rectangle.position.y/this.size;
     }
 
 }
@@ -63,6 +63,9 @@ class Grid {
             this.grid[i] = new Array(width);
         }
         this.size = size;
+        this.piece = new Array();
+        this.shape = 0;
+        this.orientation = 0;
     }
 
     //Returns the PIXI Graphics object at that coordinate
@@ -74,7 +77,7 @@ class Grid {
     addRectangle(x, y, color) {
         var block = new Block(color, this.size, x, y);
         this.grid[y][x] = block;
-        return block.getRectangle();
+        return block;
     }
 
     //Checks to see if the coordinate contains a Block or is undefined
@@ -92,4 +95,17 @@ class Grid {
         this.grid[y2][x2].setX(x2);
         this.grid[y2][x2].setY(y2);
     }
+
+    
+    newPiece(color) {
+        var piece = [            
+            this.addRectangle(4, 5, color),
+            this.addRectangle(5, 5, color),
+            this.addRectangle(6, 5, color),
+            this.addRectangle(5, 6, color)
+        ]
+        
+        return piece;
+    }
+
 }
