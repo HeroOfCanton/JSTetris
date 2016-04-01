@@ -543,14 +543,10 @@
 	    var blockY = 0;
 	    function animate() {
 	        var myTimer = setTimeout(animate, 1000);
-	        // if (isEmpty(blockX, blockY + 1)) {
-	        //     moveRectangle(blockX, blockY, blockX, blockY + 1);
-	        //     blockY += 1;
-	        // }
-	        newPiece();
-	        if(!drop()) {
+	        
+	        if(drop()) {
 	        	clearTimeout(myTimer);
-	        	newPiece();
+	        	newPiece(0xff0000, shape);
 	        	myTimer = setTimeout(animate, 1000);
 	      	} 
 	        
