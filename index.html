@@ -68,7 +68,7 @@
 		    var orientation = 0;
 		    var shapes = ['t', 'l', 'j', 'z', 's', 'i', 'q'];
 
-		    var shape = 's';
+		    var shape = 'i';
 
 		    var grid = new Array(GRID_HEIGHT);
 		    for (var i = 0; i < GRID_HEIGHT; i++) {
@@ -86,7 +86,7 @@
 		    stage.addChild(block2);
 
               
-		    newPiece(0xff0000);
+		    newPiece(0xff0000, shape);
 		    for (var i = 0; i < piece.length; ++i)
 		        stage.addChild(piece[i]);
                 
@@ -134,13 +134,47 @@
 	    }
 
             
-	    function newPiece(color) {
-	        piece = [
-                addRectangle(5, 5, color),
-                addRectangle(4, 5, color),
-                addRectangle(4, 6, color),
-                addRectangle(5, 4, color)
-	        ];
+	    function newPiece(color, shape) {
+	        if (shape === 'z') {
+	            piece = [
+                    addRectangle(5, 5, color),
+                    addRectangle(4, 5, color),
+                    addRectangle(4, 6, color),
+                    addRectangle(5, 4, color)
+	            ];
+	        }
+	        if (shape === 's') {
+	            piece = [
+                    addRectangle(4, 5, color),
+                    addRectangle(5, 5, color),
+                    addRectangle(5, 6, color),
+                    addRectangle(4, 4, color)
+	            ];
+	        }
+	        if (shape === 't') {
+	            piece = [
+                    addRectangle(5, 5, color),
+                    addRectangle(4, 5, color),
+                    addRectangle(6, 5, color),
+                    addRectangle(5, 6, color)
+	            ];
+	        }
+	        if (shape === 'q') {
+	            piece = [
+                    addRectangle(4, 4, color),
+                    addRectangle(4, 5, color),
+                    addRectangle(5, 4, color),
+                    addRectangle(5, 5, color)
+	            ];
+	        }
+	        if (shape === 'i') {
+	            piece = [
+                    addRectangle(5, 5, color),
+                    addRectangle(5, 3, color),
+                    addRectangle(5, 4, color),
+                    addRectangle(5, 6, color)
+	            ];
+	        }
 	        orientation = 0;
 	    }
             
@@ -174,7 +208,9 @@
 	    }
 
 	    function rotatePiece() {
-	        if (shape = 't') {
+	        if (shape === 'q')
+	            return;
+	        if (shape === 't') {
 	            if (orientation === 0) {
 	                if (isEmpty(getX(piece[0]), getY(piece[0]) - 1)) {
 	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) - 1);
@@ -200,9 +236,9 @@
 	                }
 	            }
 	        }
-	        if (shape = 's') {
+	        if (shape === 's') {
 	            if (orientation === 0) {
-	                if (isEmpty(getX(piece[0])-1, getY(piece[0]) + 1) && isEmpty(getX(piece[0]), getY(piece[0]) + 1)) {
+	                if (isEmpty(getX(piece[0]) - 1, getY(piece[0]) + 1) && isEmpty(getX(piece[0]), getY(piece[0]) + 1)) {
 	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]) + 1, getX(piece[0]) - 1, getY(piece[0]) + 1);
 	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) + 1);
 	                    moveRectangle(getX(piece[0]), getY(piece[0]) - 1, getX(piece[0]) + 1, getY(piece[0]));
@@ -234,7 +270,7 @@
 	                }
 	            }
 	        }
-	        if (shape = 'z') {
+	        if (shape === 'z') {
 	            if (orientation === 0) {
 	                if (isEmpty(getX(piece[0]) - 1, getY(piece[0]) - 1) && isEmpty(getX(piece[0])+1, getY(piece[0]))) {
 	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]) + 1, getX(piece[0]) - 1, getY(piece[0]) - 1);
