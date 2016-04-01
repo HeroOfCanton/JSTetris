@@ -22,7 +22,11 @@ var color_array = [0xff0000, 0x00ff00, 0x0000ff];
 var color_index = 0;
 class Piece {
     constructor(container, i, j) {
-        if (color_index % 2 == 1) {
+        if (color_index % 2 == 1) {	
+
+        	/* as far as I can tell, the matrix breaks down like this
+        	[i, j] -> j controls how many blocks in second column
+        	*/
             this.values = [
                 [0, 0],
                 [0, 1],
@@ -31,12 +35,35 @@ class Piece {
             ]
         } else {
             this.values = [
-                [0, 0],
-                [0, 1],
-                [1, 1],
-                [1, 2]
+               	[1, 2],
+            	[1, 1],
+            	[0, 0],
+            	[0, 0]
             ]
         }
+
+        	/* 
+        	Square
+        	[0, 0],  
+        	[0, 1],
+        	[1, 0],
+        	[1, 1]
+			Z-shape
+        	[0, 0],
+            [0, 1],
+            [1, 1],
+            [1, 2]
+			Line
+            [0, 3],
+            [0, 2],
+            [0, 1],
+            [0, 0]
+			Reverse Z-shape
+            [1, 0],
+            [0, 2],
+            [0, 1],
+            [1, 1]
+        	*/
         this.i = 0;
         this.j = 0;
         this.color = color_array[color_index];
