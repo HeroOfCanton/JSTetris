@@ -74,114 +74,83 @@
 		    for (var i = 0; i < GRID_HEIGHT; i++) {
 		        grid[i] = new Array(GRID_WIDTH);
 		    }
-
 		    var piece = new Array();
 
-		    //var grid = new Grid(GRID_WIDTH, GRID_HEIGHT, SPRITE_WIDTH);
-		    var block = addRectangle(0, 0, 0xff0000);
-		    stage.addChild(block);
+		    newPiece(0xff0000);
 
-            
-		    var block2 = addRectangle(0, 10, 0xff0000);
-		    stage.addChild(block2);
 
-              
-		    newPiece(0xff0000, shape);
-		    for (var i = 0; i < piece.length; ++i)
-		        stage.addChild(piece[i]);
-                
 
-		  /**
-		   * TEXT / SCOREBOARD
-		   */
-
-            /*
-		  var scoreboardBackground = new PIXI.Graphics();
-		  scoreboardBackground.beginFill(0x7E7215);
-		  scoreboardBackground.drawRect(0, 0, SCOREBOARD_WIDTH, CANVAS_HEIGHT);
-		  scoreboardBackground.endFill();
-		  stage.addChild(scoreboardBackground);
-
-		  var levelText = new PIXI.Text("Level\n0", {font:"26px Monospace", fill: "black"});
-		  stage.addChild(levelText);
-
-		  var clearedLinesText = new PIXI.Text("Clear\n0", {font:"26px Monospace", fill: "black"});
-		  clearedLinesText.position.y = Math.floor((CANVAS_HEIGHT - 56) / 3);
-		  stage.addChild(clearedLinesText);
-
-		  var nextText = new PIXI.Text("Next", {font:"26px Monospace", fill: "black"});
-		  nextText.position.y = Math.floor((CANVAS_HEIGHT - 56) * 2 / 3);
-		  stage.addChild(nextText);
-
-		  var scoreText = new PIXI.Text("Score\n0", {font:"26px Monospace", fill: "black"});
-		  scoreText.position.y = CANVAS_HEIGHT - 56;
-		  stage.addChild(scoreText);
-          */
-	    
-
+		    console.log(random(0, 7));
 	    renderer.render(stage);
 
 	    requestAnimationFrame(animate);
-        
+
 	    function addRectangle(x, y, color) {
+	        console.log(color);
 	        var rectangle = new PIXI.Graphics();
 	        rectangle.beginFill(color);
 	        rectangle.lineStyle(2, 0x000000);
 	        rectangle.position.set(x * SPRITE_WIDTH, y * SPRITE_WIDTH);
 	        rectangle.drawRect(0, 0, SPRITE_WIDTH, SPRITE_WIDTH);
 	        grid[y][x] = rectangle;
+	        stage.addChild(rectangle);
 	        return rectangle;
 	    }
-
+	    /**
+          * Returns a random number between min (inclusive) and max (exclusive)
+          */
+	    function random(min, max) {
+	        return Math.round(Math.random() * (max - min) + min);
+	    }
             
-	    function newPiece(color, shape) {
-	        console.log("We are here");
+	    function newPiece(color) {
+	        shape = shapes[random(0, 7)];
 	        if (shape === 'z') {
 	            piece = [
-                    addRectangle(5, 5, color),
-                    addRectangle(4, 5, color),
-                    addRectangle(4, 6, color),
-                    addRectangle(5, 4, color)
+                    addRectangle(5, 1, color),
+                    addRectangle(4, 1, color),
+                    addRectangle(4, 2, color),
+                    addRectangle(5, 0, color)
 	            ];
 	        }
 	        if (shape === 's') {
 	            piece = [
-                    addRectangle(4, 5, color),
-                    addRectangle(5, 5, color),
-                    addRectangle(5, 6, color),
-                    addRectangle(4, 4, color)
+                    addRectangle(4, 1, color),
+                    addRectangle(5, 1, color),
+                    addRectangle(5, 2, color),
+                    addRectangle(4, 0, color)
 	            ];
 	        }
 	        if (shape === 't') {
 	            piece = [
-                    addRectangle(5, 5, color),
-                    addRectangle(4, 5, color),
-                    addRectangle(6, 5, color),
-                    addRectangle(5, 6, color)
+                    addRectangle(5, 0, color),
+                    addRectangle(4, 0, color),
+                    addRectangle(6, 0, color),
+                    addRectangle(5, 1, color)
 	            ];
 	        }
 	        if (shape === 'q') {
 	            piece = [
-                    addRectangle(4, 4, color),
-                    addRectangle(4, 5, color),
-                    addRectangle(5, 4, color),
-                    addRectangle(5, 5, color)
+                    addRectangle(4, 0, color),
+                    addRectangle(4, 1, color),
+                    addRectangle(5, 0, color),
+                    addRectangle(5, 1, color)
 	            ];
 	        }
 	        if (shape === 'i') {
 	            piece = [
-                    addRectangle(5, 5, color),
-                    addRectangle(5, 3, color),
-                    addRectangle(5, 4, color),
-                    addRectangle(5, 6, color)
+                    addRectangle(5, 2, color),
+                    addRectangle(5, 0, color),
+                    addRectangle(5, 1, color),
+                    addRectangle(5, 3, color)
 	            ];
 	        }
 	        if (shape === 'j') {
 	            piece = [
-                    addRectangle(5, 5, color),
-                    addRectangle(6, 4, color),
-                    addRectangle(5, 4, color),
-                    addRectangle(5, 6, color)
+                    addRectangle(5, 1, color),
+                    addRectangle(6, 0, color),
+                    addRectangle(5, 0, color),
+                    addRectangle(5, 2, color)
 	            ];
 	        }
 	        if (shape === 'l') {
@@ -524,13 +493,13 @@
 	            moveLeft();
 	        }
 	        if (e.keyCode === 38) { // up
-	            //circle.fillColor = 0xffffff;
+	            rotatePiece();
 	        }
 	        if (e.keyCode === 39) { // right
 	            moveRight();
 	        }
 	        if (e.keyCode === 40) { // down
-	            //circle.fillColor = 0xff00ff;
+	            drop();
 	        }
 	        if (e.keyCode === 90) { // Z
 	            //circle.fillColor = 0x00ffff;
@@ -547,9 +516,8 @@
 	    function animate() {
 	        var myTimer = setTimeout(animate, 1000);
 	        if (!drop()) {
-	            console.log(result);
 	        	clearTimeout(myTimer);
-	        	newPiece(0xff0000, 't');
+	        	newPiece(0xff0000);
 	        	myTimer = setTimeout(animate, 1000);
 	      	} 
 	        
