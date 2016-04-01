@@ -68,7 +68,7 @@
 		    var orientation = 0;
 		    var shapes = ['t', 'l', 'j', 'z', 's', 'i', 'q'];
 
-		    var shape = 'i';
+		    var shape = 'l';
 
 		    var grid = new Array(GRID_HEIGHT);
 		    for (var i = 0; i < GRID_HEIGHT; i++) {
@@ -175,6 +175,22 @@
                     addRectangle(5, 6, color)
 	            ];
 	        }
+	        if (shape === 'j') {
+	            piece = [
+                    addRectangle(5, 5, color),
+                    addRectangle(6, 4, color),
+                    addRectangle(5, 4, color),
+                    addRectangle(5, 6, color)
+	            ];
+	        }
+	        if (shape === 'l') {
+	            piece = [
+                    addRectangle(5, 5, color),
+                    addRectangle(4, 4, color),
+                    addRectangle(5, 4, color),
+                    addRectangle(5, 6, color)
+	            ];
+	        }
 	        orientation = 0;
 	    }
             
@@ -246,15 +262,15 @@
 	                }
 	            }
 	            else if (orientation === 1) {
-	                if (isEmpty(getX(piece[0]) - 1, getY(piece[0]) - 1) && isEmpty(getX(piece[0])-1, getY(piece[0]))) {
+	                if (isEmpty(getX(piece[0]) - 1, getY(piece[0]) - 1) && isEmpty(getX(piece[0]) - 1, getY(piece[0]))) {
 	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]) + 1, getX(piece[0]) - 1, getY(piece[0]) - 1);
-	                    moveRectangle(getX(piece[0]), getY(piece[0])+1, getX(piece[0])-1, getY(piece[0]));
-	                    moveRectangle(getX(piece[0])+1, getY(piece[0]), getX(piece[0]), getY(piece[0])+1);
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) + 1, getX(piece[0]) - 1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) + 1);
 	                    orientation = 2;
 	                }
 	            }
 	            else if (orientation === 2) {
-	                if (isEmpty(getX(piece[0])+1, getY(piece[0]) - 1) && isEmpty(getX(piece[0]), getY(piece[0]) - 1)) {
+	                if (isEmpty(getX(piece[0]) + 1, getY(piece[0]) - 1) && isEmpty(getX(piece[0]), getY(piece[0]) - 1)) {
 	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]) - 1, getX(piece[0]) + 1, getY(piece[0]) - 1);
 	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) - 1);
 	                    moveRectangle(getX(piece[0]), getY(piece[0]) + 1, getX(piece[0]) - 1, getY(piece[0]));
@@ -272,18 +288,18 @@
 	        }
 	        if (shape === 'z') {
 	            if (orientation === 0) {
-	                if (isEmpty(getX(piece[0]) - 1, getY(piece[0]) - 1) && isEmpty(getX(piece[0])+1, getY(piece[0]))) {
+	                if (isEmpty(getX(piece[0]) - 1, getY(piece[0]) - 1) && isEmpty(getX(piece[0]) + 1, getY(piece[0]))) {
 	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]) + 1, getX(piece[0]) - 1, getY(piece[0]) - 1);
-	                    moveRectangle(getX(piece[0]), getY(piece[0])-1, getX(piece[0])+1, getY(piece[0]));
-	                    moveRectangle(getX(piece[0])-1, getY(piece[0]), getX(piece[0]), getY(piece[0])-1);
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) - 1, getX(piece[0]) + 1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) - 1);
 	                    orientation = 1;
 	                }
 	            }
 	            else if (orientation === 1) {
-	                if (isEmpty(getX(piece[0]) + 1, getY(piece[0]) - 1) && isEmpty(getX(piece[0]), getY(piece[0])+1)) {
+	                if (isEmpty(getX(piece[0]) + 1, getY(piece[0]) - 1) && isEmpty(getX(piece[0]), getY(piece[0]) + 1)) {
 	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]) - 1, getX(piece[0]) + 1, getY(piece[0]) - 1);
-	                    moveRectangle(getX(piece[0])+1, getY(piece[0]), getX(piece[0]), getY(piece[0])+1);
-	                    moveRectangle(getX(piece[0]), getY(piece[0])-1, getX(piece[0])+1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) + 1);
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) - 1, getX(piece[0]) + 1, getY(piece[0]));
 	                    orientation = 2;
 	                }
 	            }
@@ -300,6 +316,92 @@
 	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]) + 1, getX(piece[0]) - 1, getY(piece[0]) + 1);
 	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) - 1);
 	                    moveRectangle(getX(piece[0]), getY(piece[0]) + 1, getX(piece[0]) - 1, getY(piece[0]));
+	                    orientation = 0;
+	                }
+	            }
+	        }
+	        if (shape === 'i') {
+	            if (orientation === 0) {
+	                if (isEmpty(getX(piece[0]) + 1, getY(piece[0])) && isEmpty(getX(piece[0]) - 1, getY(piece[0])) && isEmpty(getX(piece[0]) - 2, getY(piece[0]))) {
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) + 1, getX(piece[0]) + 1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) - 1, getX(piece[0]) - 1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) - 2, getX(piece[0]) - 2, getY(piece[0]));
+	                    orientation = 1;
+	                }
+	            }
+	            else if (orientation === 1) {
+	                if (isEmpty(getX(piece[0]), getY(piece[0]) + 1) && isEmpty(getX(piece[0]), getY(piece[0]) - 1) && isEmpty(getX(piece[0]), getY(piece[0]) - 2)) {
+	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) + 1);
+	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) - 1);
+	                    moveRectangle(getX(piece[0]) - 2, getY(piece[0]), getX(piece[0]), getY(piece[0]) - 2);
+	                    orientation = 0;
+	                }
+	            }
+	        }
+	        if (shape === 'j') {
+	            if (orientation === 0) {
+	                if (isEmpty(getX(piece[0]) + 1, getY(piece[0])) && isEmpty(getX(piece[0]) - 1, getY(piece[0])) && isEmpty(getX(piece[0]) +1, getY(piece[0])+1)) {
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) + 1, getX(piece[0]) + 1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) - 1, getX(piece[0]) - 1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0])+1, getY(piece[0]) - 1, getX(piece[0]) +1, getY(piece[0])+1);
+	                    orientation = 1;
+	                }
+	            }
+	            else if (orientation === 1) {
+	                if (isEmpty(getX(piece[0]), getY(piece[0]) + 1) && isEmpty(getX(piece[0]), getY(piece[0]) - 1) && isEmpty(getX(piece[0])-1, getY(piece[0]) +1)) {
+	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) + 1);
+	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) - 1);
+	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0])+1, getX(piece[0])-1, getY(piece[0]) +1);
+	                    orientation = 2;
+	                }
+	            }
+	            else if (orientation === 2) {
+	                if (isEmpty(getX(piece[0]) + 1, getY(piece[0])) && isEmpty(getX(piece[0]) - 1, getY(piece[0])) && isEmpty(getX(piece[0]) - 1, getY(piece[0]) - 1)) {
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) + 1, getX(piece[0]) + 1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) - 1, getX(piece[0]) - 1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]) + 1, getX(piece[0]) - 1, getY(piece[0]) - 1);
+	                    orientation = 3;
+	                }
+	            }
+	            else if (orientation === 3) {
+	                if (isEmpty(getX(piece[0]), getY(piece[0]) + 1) && isEmpty(getX(piece[0]), getY(piece[0]) - 1) && isEmpty(getX(piece[0]) + 1, getY(piece[0]) - 1)) {
+	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) + 1);
+	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) - 1);
+	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]) - 1, getX(piece[0]) + 1, getY(piece[0]) - 1);
+	                    orientation = 0;
+	                }
+	            }
+	        }
+	        if (shape === 'l') {
+	            if (orientation === 0) {
+	                if (isEmpty(getX(piece[0]) + 1, getY(piece[0])) && isEmpty(getX(piece[0]) - 1, getY(piece[0])) && isEmpty(getX(piece[0]) + 1, getY(piece[0]) - 1)) {
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) + 1, getX(piece[0]) + 1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) - 1, getX(piece[0]) - 1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]) - 1, getX(piece[0]) + 1, getY(piece[0]) - 1);
+	                    orientation = 1;
+	                }
+	            }
+	            else if (orientation === 1) {
+	                if (isEmpty(getX(piece[0]), getY(piece[0]) + 1) && isEmpty(getX(piece[0]), getY(piece[0]) - 1) && isEmpty(getX(piece[0]) + 1, getY(piece[0]) + 1)) {
+	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) + 1);
+	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) - 1);
+	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]) - 1, getX(piece[0]) + 1, getY(piece[0]) + 1);
+	                    orientation = 2;
+	                }
+	            }
+	            else if (orientation === 2) {
+	                if (isEmpty(getX(piece[0]) + 1, getY(piece[0])) && isEmpty(getX(piece[0]) - 1, getY(piece[0])) && isEmpty(getX(piece[0]) - 1, getY(piece[0]) + 1)) {
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) + 1, getX(piece[0]) + 1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0]), getY(piece[0]) - 1, getX(piece[0]) - 1, getY(piece[0]));
+	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]) + 1, getX(piece[0]) - 1, getY(piece[0]) + 1);
+	                    orientation = 3;
+	                }
+	            }
+	            else if (orientation === 3) {
+	                if (isEmpty(getX(piece[0]), getY(piece[0]) + 1) && isEmpty(getX(piece[0]), getY(piece[0]) - 1) && isEmpty(getX(piece[0]) - 1, getY(piece[0]) - 1)) {
+	                    moveRectangle(getX(piece[0]) + 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) + 1);
+	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]), getX(piece[0]), getY(piece[0]) - 1);
+	                    moveRectangle(getX(piece[0]) - 1, getY(piece[0]) + 1, getX(piece[0]) - 1, getY(piece[0]) - 1);
 	                    orientation = 0;
 	                }
 	            }
