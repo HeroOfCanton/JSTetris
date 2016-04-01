@@ -68,7 +68,7 @@
 		    var orientation = 0;
 		    var shapes = ['t', 'l', 'j', 'z', 's', 'i', 'q'];
 
-		    var shape = 'l';
+		    var shape = 't';
 
 		    var grid = new Array(GRID_HEIGHT);
 		    for (var i = 0; i < GRID_HEIGHT; i++) {
@@ -195,6 +195,8 @@
 	    }
             
 	    function isEmpty(x, y) {
+	        if (x < 0 || y < 0 || x >= GRID_WIDTH || y >= GRID_HEIGHT)
+	            return false;
 	        if (typeof grid[y][x] === 'undefined')
 	            return true;
 	        else
@@ -407,19 +409,86 @@
 	            }
 	        }
 	    }
+
+	    function compareNumbers(a, b) {
+	        return a - b;
+	    }
+	    function compareNumbersReverse(a, b) {
+	        return b - a;
+	    }
+	    function moveLeft() {
+	        var coords = {};
+	        for (var i = 0; i < piece.length; ++i) {
+	            if (coords.hasOwnProperty(getY(piece[i]).toString())) {
+	                coords[getY(piece[i]).toString()].push(getX(piece[i]));
+	            }
+	            else {
+	                coords[getY(piece[i]).toString()] = new Array();
+	                coords[getY(piece[i]).toString()].push(getX(piece[i]))
+	            }
+	        }
+	        var empty = true;
+	        for (var key in coords) {
+	            if (coords.hasOwnProperty(key)) {
+	                coords[key].sort(compareNumbers);
+	                empty = isEmpty(coords[key][0] - 1, key);
+	                if (!empty)
+	                    return;
+	            }
+	        }
+	        if (empty) {
+	            for (var y in coords) {
+	                if (coords.hasOwnProperty(y)) {
+	                    for (var x in coords[y]) {
+	                        moveRectangle(coords[y][x], y, coords[y][x] - 1, y);
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    function moveRight() {
+	        var coords = {};
+	        for (var i = 0; i < piece.length; ++i) {
+	            if (coords.hasOwnProperty(getY(piece[i]).toString())) {
+	                coords[getY(piece[i]).toString()].push(getX(piece[i]));
+	            }
+	            else {
+	                coords[getY(piece[i]).toString()] = new Array();
+	                coords[getY(piece[i]).toString()].push(getX(piece[i]))
+	            }
+	        }
+	        var empty = true;
+	        for (var key in coords) {
+	            if (coords.hasOwnProperty(key)) {
+	                coords[key].sort(compareNumbersReverse);
+	                empty = isEmpty(coords[key][0] + 1, key);
+	                if (!empty)
+	                    return;
+	            }
+	        }
+	        if (empty) {
+	            for (var y in coords) {
+	                if (coords.hasOwnProperty(y)) {
+	                    for (var x in coords[y]) {
+	                        moveRectangle(coords[y][x], y, coords[y][x] + 1, y);
+	                    }
+	                }
+	            }
+	        }
+	    }
 	    window.addEventListener("keydown", function (e) {
 	        e.preventDefault();
 	        if (e.keyCode === 32) { // space bar
-	            //circle.position.y = 100;
+	            rotatePiece();
 	        }
 	        if (e.keyCode === 37) { // left
-	            rotatePiece();
+	            moveLeft();
 	        }
 	        if (e.keyCode === 38) { // up
 	            //circle.fillColor = 0xffffff;
 	        }
 	        if (e.keyCode === 39) { // right
-	            //circle.fillColor = 0xffff00;
+	            moveRight();
 	        }
 	        if (e.keyCode === 40) { // down
 	            //circle.fillColor = 0xff00ff;
