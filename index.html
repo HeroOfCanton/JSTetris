@@ -41,15 +41,17 @@
     	<div class="row">
     		<div class="col-sm-8 text-center">
     			<button class="btn btn-primary" type="button" id="startgame">Start New Game</button>
-					<div id="tetris" style="padding-top: 10px;">
-					</div>
-				</div> <!--col-sm-8-->
+				<div id="tetris" style="padding-top: 10px;">
+				</div>
+			</div> <!--col-sm-8-->
 				
-				<div class = "col-sm-4 text-center">
-					<button class="btn btn-primary" type="button" id="highscore">Show High Scores</button>
-				</div> <!--col-sm-4-->
-			</div> <!--row-->
-		</div> <!--container-->
+			<div class = "col-sm-4 text-center">
+				<button class="btn btn-primary" type="button" id="highscore">Show High Scores</button>
+				<div id="scoreboard">
+				</div>
+			</div> <!--col-sm-4-->
+		</div> <!--row-->
+	</div> <!--container-->
 
 
     <script>
@@ -106,93 +108,106 @@
 	        if (shape === 'z') {
 	        	if(!isEmpty(5, 1) || !isEmpty(4, 1) || !isEmpty(4, 2) || !isEmpty(5, 0)) {
 		            	endgame();
-		            }
+		        }
 		        else {
-	            piece = [  
-                addRectangle(5, 1, 0xff0000),
-                addRectangle(4, 1, 0xff0000),
-                addRectangle(4, 2, 0xff0000),
-                addRectangle(5, 0, 0xff0000)
-		          ];
+		            piece = [  
+		                addRectangle(5, 1, 0xff0000),
+		                addRectangle(4, 1, 0xff0000),
+		                addRectangle(4, 2, 0xff0000),
+		                addRectangle(5, 0, 0xff0000)
+			        ];
 		        }
 	        }
-	        if (shape === 's') {
+	        else if (shape === 's') {
 	        	if(!isEmpty(4, 1) || !isEmpty(5, 1) || !isEmpty(5, 2) || !isEmpty(4, 0)) {
 		            	endgame();
-		            }
+		        }
 		        else {
-	            piece = [
-                    addRectangle(4, 1, 0x00ff00),
-                    addRectangle(5, 1, 0x00ff00),
-                    addRectangle(5, 2, 0x00ff00),
-                    addRectangle(4, 0, 0x00ff00)
-	            ];
-	          }
+		            piece = [
+	                    addRectangle(4, 1, 0x00ff00),
+	                    addRectangle(5, 1, 0x00ff00),
+	                    addRectangle(5, 2, 0x00ff00),
+	                    addRectangle(4, 0, 0x00ff00)
+		            ];
+	            }
 	        }
-	        if (shape === 't') {
+	        else if (shape === 't') {
 	        	if(!isEmpty(5, 0) || !isEmpty(4, 0) || !isEmpty(6, 0) || !isEmpty(5, 1)) {
 		            	endgame();
-		            }
+		        }
 		        else {
-	            piece = [
-                    addRectangle(5, 0, 0x0000ff),
-                    addRectangle(4, 0, 0x0000ff),
-                    addRectangle(6, 0, 0x0000ff),
-                    addRectangle(5, 1, 0x0000ff)
-	            ];
-	          }
+		            piece = [
+	                    addRectangle(5, 0, 0x0000ff),
+	                    addRectangle(4, 0, 0x0000ff),
+	                    addRectangle(6, 0, 0x0000ff),
+	                    addRectangle(5, 1, 0x0000ff)
+		            ];
+	          	}
 	        }
-	        if (shape === 'q') {
+	        else if (shape === 'q') {
 	        	if(!isEmpty(4, 0) || !isEmpty(4, 1) || !isEmpty(5, 0) || !isEmpty(5, 1)) {
 		            	endgame();
-		            }
+		        }
 		        else {
-	            piece = [
-                    addRectangle(4, 0, 0x00ffff),
-                    addRectangle(4, 1, 0x00ffff),
-                    addRectangle(5, 0, 0x00ffff),
-                    addRectangle(5, 1, 0x00ffff)
-	            ];
-	          }
+		            piece = [
+	                    addRectangle(4, 0, 0x00ffff),
+	                    addRectangle(4, 1, 0x00ffff),
+	                    addRectangle(5, 0, 0x00ffff),
+	                    addRectangle(5, 1, 0x00ffff)
+		            ];
+	          	}
 	        }
-	        if (shape === 'i') {
+	        else if (shape === 'i') {
 	        	if(!isEmpty(5, 2) || !isEmpty(5, 0) || !isEmpty(5, 1) || !isEmpty(5, 3)) {
 		            	endgame();
-		            }
+		        }
 		        else {
-	            piece = [
-                    addRectangle(5, 2, 0xff00ff),
-                    addRectangle(5, 0, 0xff00ff),
-                    addRectangle(5, 1, 0xff00ff),
-                    addRectangle(5, 3, 0xff00ff)
-	            ];
-	          }
+		            piece = [
+	                    addRectangle(5, 2, 0xff00ff),
+	                    addRectangle(5, 0, 0xff00ff),
+	                    addRectangle(5, 1, 0xff00ff),
+	                    addRectangle(5, 3, 0xff00ff)
+		            ];
+	          	}
 	        }
-	        if (shape === 'j') {
+	        else if (shape === 'j') {
 	        	if(!isEmpty(5, 1) || !isEmpty(6, 0) || !isEmpty(5, 0) || !isEmpty(5, 2)) {
 		            	endgame();
-		            }
+		        }
 		        else {
-	            piece = [
-                    addRectangle(5, 1, 0xffff00),
-                    addRectangle(6, 0, 0xffff00),
-                    addRectangle(5, 0, 0xffff00),
-                    addRectangle(5, 2, 0xffff00)
-	            ];
-	          }
+		            piece = [
+	                    addRectangle(5, 1, 0xffff00),
+	                    addRectangle(6, 0, 0xffff00),
+	                    addRectangle(5, 0, 0xffff00),
+	                    addRectangle(5, 2, 0xffff00)
+		            ];
+	          	}
 	        }
-	        if (shape === 'l') {
+	        else if (shape === 'l') {
 	        	if(!isEmpty(5, 1) || !isEmpty(4, 0) || !isEmpty(5, 0) || !isEmpty(5, 2)) {
 		            	endgame();
 		            }
 		        else {
-	            piece = [
-                    addRectangle(5, 1, 0xffffff),
-                    addRectangle(4, 0, 0xffffff),
-                    addRectangle(5, 0, 0xffffff),
-                    addRectangle(5, 2, 0xffffff)
-	            ];
-	          }
+		            piece = [
+	                    addRectangle(5, 1, 0xffffff),
+	                    addRectangle(4, 0, 0xffffff),
+	                    addRectangle(5, 0, 0xffffff),
+	                    addRectangle(5, 2, 0xffffff)
+		            ];
+	          	}
+	        }
+	        else {
+	        	if(!isEmpty(5, 0) || !isEmpty(4, 0) || !isEmpty(6, 0) || !isEmpty(5, 1)) {
+		            	endgame();
+		        }
+		        else {
+		            piece = [
+	                    addRectangle(5, 0, 0x0000ff),
+	                    addRectangle(4, 0, 0x0000ff),
+	                    addRectangle(6, 0, 0x0000ff),
+	                    addRectangle(5, 1, 0x0000ff)
+		            ];
+	          	}
 	        }
 	        orientation = 0;
 	    }
@@ -576,16 +591,14 @@
 	        	newPiece(0xff0000);
 	        	myTimer = setTimeout(animate, 1000);
 	      	} 
-	        
-
 	    	renderer.render(stage);     // render the stage
-			};
-
-			function endgame() {
-				alert("End Game");
-			}
-
 		};
+
+		function endgame() {
+			alert("End Game");
+		}
+
+	};
 
     </script>
         <p id="test"></p>
