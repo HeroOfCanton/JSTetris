@@ -1,22 +1,22 @@
-<!DOCTYPE HTML>
-<html>
-  <head>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
-    <meta content="utf-8" http-equiv="encoding" />
-    <title>Tetris</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
+<html lang="en"> 
+  	<head>
+	    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+	    <meta content="utf-8" http-equiv="encoding" />
+	    <title>Tetris</title>
 
-    <!-- THIS FIRST -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	    <!-- THIS FIRST -->
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	    <!-- Optional theme -->
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
-    <script src="jquery-1.11.2.min.js"></script> <!-- 1 - JQUERY -->
-    <script src="pixi.js"></script>
-    <script src="tetris.js"></script>
-
-    <script type="text/javascript">
-      	$(document).on("click", "#highscore", function(e){
+	    <script src="jquery-1.11.2.min.js"></script> <!-- 1 - JQUERY -->
+	    <script src="pixi.js"></script>
+	    <script src="tetris.js"></script>
+	    
+	    <script type="text/javascript">
+      	$(document).ready(function(e){
         	$("#scoreboard").load("highscore_controller.php");
       	});
 
@@ -24,9 +24,9 @@
       		$("#tetris").html("");
         	$("#tetris").load(tetrisController());
       	});
-    </script>
+	    </script>
 
-  </head>
+  	</head>
 	<body style="padding-top: 70px;">
 
 	<div class="container">
@@ -37,23 +37,21 @@
   		</div>
 	</div>
 
-    <div class="container">
-    	<div class="row">
-    		<div class="col-sm-8 text-center">
-    			<button class="btn btn-primary" type="button" id="startgame">Start New Game</button>
+  <div class="container">
+  	<div class="row">
+  		<div class="col-sm-8 text-center">
+  			<button class="btn btn-primary" type="button" id="startgame">Start New Game</button>
 				<div id="tetris" style="padding-top: 10px;">
 				</div>
 			</div> <!--col-sm-8-->
-				
+			
 			<div class = "col-sm-4 text-center">
-				<button class="btn btn-primary" type="button" id="highscore">Show High Scores</button>
 				<div id="scoreboard">
 				</div>
 			</div> <!--col-sm-4-->
 		</div> <!--row-->
 	</div> <!--container-->
-
-
+	<p>  <?= $output; ?> </p>
     <script>
 		function tetrisController(){
 	    var GRID_WIDTH = 10;
@@ -196,12 +194,14 @@
 		            ];
 	          	}
 	        }
+	        // Somehow we're getting an undefined shape back from random
+	        // rather than figure that out, just make sure we create a 't' in all cases
 	        else {
 	        	if(!isEmpty(5, 0) || !isEmpty(4, 0) || !isEmpty(6, 0) || !isEmpty(5, 1)) {
 		            	endgame();
 		        }
-	        	else {
-	        	    shape = 't';
+		        else {
+		        		shape = 't';
 		            piece = [
 	                    addRectangle(5, 0, 0x0000ff),
 	                    addRectangle(4, 0, 0x0000ff),
@@ -432,9 +432,11 @@
 	    function compareNumbers(a, b) {
 	        return a - b;
 	    }
+
 	    function compareNumbersReverse(a, b) {
 	        return b - a;
 	    }
+
 	    function moveLeft() {
 	        var coords = {};
 	        for (var i = 0; i < piece.length; ++i) {
@@ -465,6 +467,7 @@
 	            }
 	        }
 	    }
+
 	    function moveRight() {
 	        var coords = {};
 	        for (var i = 0; i < piece.length; ++i) {
@@ -587,8 +590,8 @@
 	    function animate() {
 	        var myTimer = setTimeout(animate, 1000);
 	        if (!drop()) {
-	            clearTimeout(myTimer);
-	            checkClear();
+	          clearTimeout(myTimer);
+	          checkClear();
 	        	newPiece(0xff0000);
 	        	myTimer = setTimeout(animate, 1000);
 	      	} 
@@ -596,12 +599,17 @@
 		};
 
 		function endgame() {
-			alert("End Game");
+			cancelAnimationFrame(animate);
+			
+			var initials = prompt("~NEW HIGH SCORE!~\nEnter your initials");
+			if(initials) {
+				$("#scoreboard").load("highscore_controller.php?init=" +initials +"&score=" +score);
+			}
+			else {
+				alert("no initials!");
+			}
 		}
-
 	};
-
     </script>
-        <p id="test"></p>
 	</body>
 </html>

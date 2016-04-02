@@ -2,6 +2,9 @@
 
 require '../Projects/db_config.php';
 
+$score = $_GET['score'];
+$initials = $_GET['init'];
+
 try {
 	$output = "<option value='blank'></option> ";
 	$student_name = "";
@@ -13,33 +16,47 @@ try {
 	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-	//
-	// Build the basic query
-	//
-	$query = "
-	   SELECT * FROM HighScore 
-	   LIMIT 10";
+	if($score && $initials) {
+		$query = "
+	   		INSERT into Progress SET
+	   		name = '" .$initials ."',
+	   		score = '" .$score ."'" 
+	   		;
 
-	//
-	// Prepare and execute the query
-	//
-	$statement = $db->prepare( $query );
-	$statement->execute(  );
+	   	$statement = $db->prepare( $query );
+        $result = $statement->execute(  );
+	}
 
-	//
-	// Fetch all the results
-	//
-	$result    = $statement->fetchAll(PDO::FETCH_ASSOC);
+	else {
+		//
+		// Build the basic query
+		//
+		$query = "
+		   SELECT * FROM HighScore
+		   ORDER BY score desc
+		   LIMIT 10";
 
-	foreach ($result as $row)
-	    {
-	      $output .=
-          "<tr>"
-          .  "<td>" .$row['name']   ."</td>" 
-          .  "<td>" .$row['score']  ."</td>"
-          ."</tr>\n";
+		//
+		// Prepare and execute the query
+		//
+		$statement = $db->prepare( $query );
+		$statement->execute(  );
+
+		//
+		// Fetch all the results
+		//
+		$result    = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+		foreach ($result as $row)
+		    {
+		      $output .=
+	          "<tr>"
+	          .  "<td>" .$row['name']   ."</td>" 
+	          .  "<td>" .$row['score']  ."</td>"
+	          ."</tr>\n";
+		    }
 	    }
-    }
+	}
 catch (PDOException $ex)
 	{
 	  $output .= "<p>oops</p>";
