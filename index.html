@@ -16,74 +16,68 @@
     <script src="tetris.js"></script>
 
     <script type="text/javascript">
-	      $(document).on("click", "#highscore", function(e){
-	        $("#scoreboard").load("highscore_controller.php");
-	      });
+      	$(document).on("click", "#highscore", function(e){
+        	$("#scoreboard").load("highscore_controller.php");
+      	});
+
+      	$(document).on("click", "#startgame", function(e){
+      		$("#tetris").html("");
+        	$("#tetris").load(tetrisController());
+      	});
     </script>
 
   </head>
 	<body style="padding-top: 70px;">
 
-		<div class="container">
-	    <div class="jumbotron">
-        <div align="center">  
-          <h2>TETRIS in Pixi.js</h2>
-        </div>
-      </div>
-    </div>
+	<div class="container">
+    	<div class="jumbotron">
+    		<div align="center">  
+      			<h2>TETRIS in Pixi.js</h2>
+    		</div>
+  		</div>
+	</div>
 
     <div class="container">
     	<div class="row">
-    		<div class="col-sm-8">
-					<div id="tetris" align="center">
-						
+    		<div class="col-sm-8 text-center">
+    			<button class="btn btn-primary" type="button" id="startgame">Start New Game</button>
+					<div id="tetris" style="padding-top: 10px;">
 					</div>
-				</div> <!--col-sm-4-->
-				<div class="col-sm-2">
-					<div id="scoreboard">
-							
-					</div><!--id-->
-				</div><!--col-sm-4-->
-				<div class = "col-sm-2">
+				</div> <!--col-sm-8-->
+				
+				<div class = "col-sm-4 text-center">
 					<button class="btn btn-primary" type="button" id="highscore">Show High Scores</button>
-				</div>
+				</div> <!--col-sm-4-->
 			</div> <!--row-->
 		</div> <!--container-->
 
 
     <script>
-		$(function tetrisController(){
-		    var GRID_WIDTH = 10;
-		    var GRID_HEIGHT = 20;
-		    var SPRITE_WIDTH = 24;
-		  
-		    var SCOREBOARD_WIDTH = SPRITE_WIDTH * 5;
+		function tetrisController(){
+	    var GRID_WIDTH = 10;
+	    var GRID_HEIGHT = 20;
+	    var SPRITE_WIDTH = 24;
+	  
+	    var SCOREBOARD_WIDTH = SPRITE_WIDTH * 5;
 
-		    var CANVAS_WIDTH = GRID_WIDTH * SPRITE_WIDTH;
-		    var CANVAS_HEIGHT = GRID_HEIGHT * SPRITE_WIDTH;
-		    var stage = new PIXI.Container();
-		    var renderer = PIXI.autoDetectRenderer(CANVAS_WIDTH, CANVAS_HEIGHT);
-		    document.getElementById("tetris").appendChild(renderer.view);     // add the renderer view element to the DOM
+	    var CANVAS_WIDTH = GRID_WIDTH * SPRITE_WIDTH;
+	    var CANVAS_HEIGHT = GRID_HEIGHT * SPRITE_WIDTH;
+	    var stage = new PIXI.Container();
+	    var renderer = PIXI.autoDetectRenderer(CANVAS_WIDTH, CANVAS_HEIGHT);
+	    document.getElementById("tetris").appendChild(renderer.view);     // add the renderer view element to the DOM
 
-		    var orientation = 0;
-		    var shapes = ['t', 'l', 'j', 'z', 's', 'i', 'q'];
+	    var orientation = 0;
+	    var shapes = ['t', 'l', 'j', 'z', 's', 'i', 'q'];
+	    var score = 0;
 
-		    var shape = 't';
+	    var grid = new Array(GRID_HEIGHT);
+	    for (var i = 0; i < GRID_HEIGHT; i++) {
+	        grid[i] = new Array(GRID_WIDTH);
+	    }
 
-		    var score = 0;
-
-		    var grid = new Array(GRID_HEIGHT);
-		    for (var i = 0; i < GRID_HEIGHT; i++) {
-		        grid[i] = new Array(GRID_WIDTH);
-		    }
-		    var piece = new Array();
-
-		    newPiece(0xff0000);
-
-
-
+	    var piece = new Array();
+	    newPiece(0xff0000);
 	    renderer.render(stage);
-
 	    requestAnimationFrame(animate);
 
 	    function addRectangle(x, y, color) {
@@ -106,60 +100,95 @@
 	    function newPiece(color) {
 	        shape = shapes[random(0, 7)];
 	        if (shape === 'z') {
-	            piece = [
-                    addRectangle(5, 1, color),
-                    addRectangle(4, 1, color),
-                    addRectangle(4, 2, color),
-                    addRectangle(5, 0, color)
-	            ];
+	        	if(!isEmpty(5, 1) || !isEmpty(4, 1) || !isEmpty(4, 2) || !isEmpty(5, 0)) {
+		            	endgame();
+		            }
+		        else {
+	            piece = [  
+                addRectangle(5, 1, 0xff0000),
+                addRectangle(4, 1, 0xff0000),
+                addRectangle(4, 2, 0xff0000),
+                addRectangle(5, 0, 0xff0000)
+		          ];
+		        }
 	        }
 	        if (shape === 's') {
+	        	if(!isEmpty(4, 1) || !isEmpty(5, 1) || !isEmpty(5, 2) || !isEmpty(4, 0)) {
+		            	endgame();
+		            }
+		        else {
 	            piece = [
-                    addRectangle(4, 1, color),
-                    addRectangle(5, 1, color),
-                    addRectangle(5, 2, color),
-                    addRectangle(4, 0, color)
+                    addRectangle(4, 1, 0x00ff00),
+                    addRectangle(5, 1, 0x00ff00),
+                    addRectangle(5, 2, 0x00ff00),
+                    addRectangle(4, 0, 0x00ff00)
 	            ];
+	          }
 	        }
 	        if (shape === 't') {
+	        	if(!isEmpty(5, 0) || !isEmpty(4, 0) || !isEmpty(6, 0) || !isEmpty(5, 1)) {
+		            	endgame();
+		            }
+		        else {
 	            piece = [
-                    addRectangle(5, 0, color),
-                    addRectangle(4, 0, color),
-                    addRectangle(6, 0, color),
-                    addRectangle(5, 1, color)
+                    addRectangle(5, 0, 0x0000ff),
+                    addRectangle(4, 0, 0x0000ff),
+                    addRectangle(6, 0, 0x0000ff),
+                    addRectangle(5, 1, 0x0000ff)
 	            ];
+	          }
 	        }
 	        if (shape === 'q') {
+	        	if(!isEmpty(4, 0) || !isEmpty(4, 1) || !isEmpty(5, 0) || !isEmpty(5, 1)) {
+		            	endgame();
+		            }
+		        else {
 	            piece = [
-                    addRectangle(4, 0, color),
-                    addRectangle(4, 1, color),
-                    addRectangle(5, 0, color),
-                    addRectangle(5, 1, color)
+                    addRectangle(4, 0, 0x00ffff),
+                    addRectangle(4, 1, 0x00ffff),
+                    addRectangle(5, 0, 0x00ffff),
+                    addRectangle(5, 1, 0x00ffff)
 	            ];
+	          }
 	        }
 	        if (shape === 'i') {
+	        	if(!isEmpty(5, 2) || !isEmpty(5, 0) || !isEmpty(5, 1) || !isEmpty(5, 3)) {
+		            	endgame();
+		            }
+		        else {
 	            piece = [
-                    addRectangle(5, 2, color),
-                    addRectangle(5, 0, color),
-                    addRectangle(5, 1, color),
-                    addRectangle(5, 3, color)
+                    addRectangle(5, 2, 0xff00ff),
+                    addRectangle(5, 0, 0xff00ff),
+                    addRectangle(5, 1, 0xff00ff),
+                    addRectangle(5, 3, 0xff00ff)
 	            ];
+	          }
 	        }
 	        if (shape === 'j') {
+	        	if(!isEmpty(5, 1) || !isEmpty(6, 0) || !isEmpty(5, 0) || !isEmpty(5, 2)) {
+		            	endgame();
+		            }
+		        else {
 	            piece = [
-                    addRectangle(5, 1, color),
-                    addRectangle(6, 0, color),
-                    addRectangle(5, 0, color),
-                    addRectangle(5, 2, color)
+                    addRectangle(5, 1, 0xffff00),
+                    addRectangle(6, 0, 0xffff00),
+                    addRectangle(5, 0, 0xffff00),
+                    addRectangle(5, 2, 0xffff00)
 	            ];
+	          }
 	        }
 	        if (shape === 'l') {
+	        	if(!isEmpty(5, 1) || !isEmpty(4, 0) || !isEmpty(5, 0) || !isEmpty(5, 2)) {
+		            	endgame();
+		            }
+		        else {
 	            piece = [
-                    addRectangle(5, 1, color),
-                    addRectangle(4, 0, color),
-                    addRectangle(5, 0, color),
-                    addRectangle(5, 2, color)
+                    addRectangle(5, 1, 0xffffff),
+                    addRectangle(4, 0, 0xffffff),
+                    addRectangle(5, 0, 0xffffff),
+                    addRectangle(5, 2, 0xffffff)
 	            ];
+	          }
 	        }
 	        orientation = 0;
 	    }
@@ -478,6 +507,7 @@
 	        }
 	        return true;
 	    }
+
 	    function checkClear() {
 	        var set = new Set();
 	        for (var i = 0; i < piece.length; ++i) {
@@ -511,8 +541,8 @@
 	                }
 	            }
 	        }
-
 	    }
+
 	    window.addEventListener("keydown", function (e) {
 	        e.preventDefault();
 	        if (e.keyCode === 32) { // space bar
@@ -544,33 +574,13 @@
 	        
 
 	    	renderer.render(stage);     // render the stage
+			};
+
+			function endgame() {
+				alert("End Game");
 			}
-		});
-		//tetrisController();
-		
-		//
-		// this function is called before every browser/canvas repaint
-		// approximately 30 or 60 times per second
-		//
-		// by putting requestAnimFrame(animate) in here, we cause an animation loop
-		//
-		
-		/*
-		$(function ()
-		{
 
-		//var loader = new PIXI.AssetLoader(["button.png","button_over.png","button_down.png"]);
-		//loader.onComplete = start_button_example;
-		//loader.load();
-
-		var loader = PIXI.loader;
-		//loader.add("button.png", "button.png");
-		//loader.add("button_over.png", "button_over.png");
-		//loader.add("button_down","button_down.png");
-		loader.once('complete', tetrisController);
-		loader.load();
-
-		});*/
+		};
 
     </script>
         <p id="test"></p>
