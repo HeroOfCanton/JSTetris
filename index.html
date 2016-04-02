@@ -69,6 +69,10 @@
 	    var orientation = 0;
 	    var shapes = ['t', 'l', 'j', 'z', 's', 'i', 'q'];
 	    var score = 0;
+	    var scoreString = new PIXI.Text(score.toString(), { fill: 0xffffff });
+	    stage.addChild(scoreString);
+	    scoreString.x = 10;
+	    scoreString.y = 10;
 
 	    var grid = new Array(GRID_HEIGHT);
 	    for (var i = 0; i < GRID_HEIGHT; i++) {
@@ -532,7 +536,8 @@
 	            }
 	            clearedArray.push(y);
 	        }
-	        score += 100 * clearedArray.length + 50 * (clearedArray.length - 1);
+	        score += 100 * clearedArray.length;
+	        scoreString.text = score.toString();
 	        clearedArray.sort(compareNumbersReverse);
 	        for (var i = clearedArray[0]; i >= 0; --i) {
 	            for (var j = 0; j < grid[i].length; ++j) {
