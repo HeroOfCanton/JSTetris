@@ -70,6 +70,8 @@
 
 		    var shape = 't';
 
+		    var score = 0;
+
 		    var grid = new Array(GRID_HEIGHT);
 		    for (var i = 0; i < GRID_HEIGHT; i++) {
 		        grid[i] = new Array(GRID_WIDTH);
@@ -80,13 +82,11 @@
 
 
 
-		    console.log(random(0, 7));
 	    renderer.render(stage);
 
 	    requestAnimationFrame(animate);
 
 	    function addRectangle(x, y, color) {
-	        console.log(color);
 	        var rectangle = new PIXI.Graphics();
 	        rectangle.beginFill(color);
 	        rectangle.lineStyle(2, 0x000000);
@@ -477,13 +477,42 @@
 	            }
 	        }
 	        return true;
-	        // Collision!
-	        /*
-	        else {
-	        	return false;
-	        }*/
 	    }
+	    function checkClear() {
+	        var set = new Set();
+	        for (var i = 0; i < piece.length; ++i) {
+	            set.add(getY(piece[i]));
+	        }
+	        var clearedSet = new Set();
+	        for (let y of set) {
+	            var clear = true;
+	            for (var i = 0; i < grid[y].length; ++i) {
+	                if (typeof grid[y][i] === 'undefined') {
+	                    clear = false;
+	                }
+	            }
+	            if (clear)
+	                clearedSet.add(y);
+	        }
+	        var clearedArray = new Array();
+	        for (let y of clearedSet) {
+	            for (var i = 0; i < grid[y].length; ++i) {
+	                stage.removeChild(grid[y][i]);
+	                grid[y][i] = undefined;
+	            }
+	            clearedArray.push(y);
+	        }
+	        score += 100 * clearedArray.length + 50 * (clearedArray.length - 1);
+	        clearedArray.sort(compareNumbersReverse);
+	        for (var i = clearedArray[0]; i >= 0; --i) {
+	            for (var j = 0; j < grid[i].length; ++j) {
+	                if (!isEmpty(j, i)) {
+	                    moveRectangle(getX(grid[i][j]), getY(grid[i][j]), getX(grid[i][j]), getY(grid[i][j]) + clearedArray.length);
+	                }
+	            }
+	        }
 
+	    }
 	    window.addEventListener("keydown", function (e) {
 	        e.preventDefault();
 	        if (e.keyCode === 32) { // space bar
@@ -501,22 +530,14 @@
 	        if (e.keyCode === 40) { // down
 	            drop();
 	        }
-	        if (e.keyCode === 90) { // Z
-	            //circle.fillColor = 0x00ffff;
-	        }
-	        if (e.keyCode === 88) { // X
-	            //circle.fillColor = 0x0000ff;
-	        }
-	        //circle.drawCircle(circle.position.x, circle.position.y, circle.height/2);
 	        renderer.render(stage);
 	    });
 
-	    var blockX = 0;
-	    var blockY = 0;
 	    function animate() {
 	        var myTimer = setTimeout(animate, 1000);
 	        if (!drop()) {
-	        	clearTimeout(myTimer);
+	            clearTimeout(myTimer);
+	            checkClear();
 	        	newPiece(0xff0000);
 	        	myTimer = setTimeout(animate, 1000);
 	      	} 
