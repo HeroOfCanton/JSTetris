@@ -2,11 +2,10 @@
 
 require '../Projects/db_config.php';
 
-$score = $_GET['score'];
-$initials = $_GET['init'];
-
 try {
-	$output = "<option value='blank'></option> ";
+	$score = $_GET["score"];
+	$initials = $_GET["init"];
+	$output = "";
 	$student_name = "";
 
 	//
@@ -16,16 +15,44 @@ try {
 	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-	if($score && $initials) {
+	if($score != "" && $initials != "") {
+
 		$query = "
-	   		INSERT into Progress SET
+	   		INSERT into HighScore SET
 	   		name = '" .$initials ."',
 	   		score = '" .$score ."'" 
 	   		;
 
 	   	$statement = $db->prepare( $query );
         $result = $statement->execute(  );
-	}
+        
+        $query_get = "
+		   SELECT * FROM HighScore
+		   ORDER BY score desc
+		   LIMIT 10";
+
+		//
+		// Prepare and execute the query
+		//
+		$statement_get = $db->prepare( $query_get );
+		$statement_get->execute(  );
+
+		//
+		// Fetch all the results
+		//
+		$result_get = $statement_get->fetchAll(PDO::FETCH_ASSOC);
+
+		foreach ($result_get as $row)
+		    {
+		      $output .=
+	          "<tr>"
+	          .  "<td>" .$row['name']   ."</td>" 
+	          .  "<td>" .$row['score']  ."</td>"
+	          ."</tr>\n";
+		    }
+		    // should be last score pulled out
+		    $lowest_score = $row['score'];
+	    }
 
 	else {
 		//
@@ -55,6 +82,8 @@ try {
 	          .  "<td>" .$row['score']  ."</td>"
 	          ."</tr>\n";
 		    }
+		    // should be last score pulled out
+		    $lowest_score = $row['score'];
 	    }
 	}
 catch (PDOException $ex)

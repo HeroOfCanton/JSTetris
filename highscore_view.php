@@ -8,3 +8,6 @@
     <?= $output; ?>
   </table>
 </div><!--table-responsive-->
+
+<p>Score to beat is</p>
+<p id="lowest"><?= $lowest_score; ?></p>
