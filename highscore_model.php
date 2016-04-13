@@ -4,7 +4,7 @@ require '../Projects/db_config.php';
 
 try {
 	$score = $_GET["score"];
-	$initials = $_GET["init"];
+	$initials = htmlentities($_GET["init"]);
 	$output = "";
 	$student_name = "";
 
@@ -19,12 +19,14 @@ try {
 
 		$query = "
 	   		INSERT into HighScore SET
-	   		name = '" .$initials ."',
-	   		score = '" .$score ."'" 
+	   		name =?,
+	   		score =?" 
 	   		;
 
 	   	$statement = $db->prepare( $query );
-        $result = $statement->execute(  );
+	   	$statement->bindValue(1, $initials, PDO::PARAM_STR);
+		$statement->bindValue(2, $score, PDO::PARAM_INT);
+ 		$result = $statement->execute(  );
         
         $query_get = "
 		   SELECT * FROM HighScore
@@ -46,7 +48,7 @@ try {
 		    {
 		      $output .=
 	          "<tr>"
-	          .  "<td>" .$row['name']   ."</td>" 
+	          .  "<td>" .htmlspecialchars($row['name'])   ."</td>" 
 	          .  "<td>" .$row['score']  ."</td>"
 	          ."</tr>\n";
 		    }
@@ -78,7 +80,7 @@ try {
 		    {
 		      $output .=
 	          "<tr>"
-	          .  "<td>" .$row['name']   ."</td>" 
+	          .  "<td>" .htmlspecialchars($row['name'])   ."</td>" 
 	          .  "<td>" .$row['score']  ."</td>"
 	          ."</tr>\n";
 		    }
